@@ -4,15 +4,22 @@ import favicon = require('serve-favicon');
 import logger = require('morgan');
 import cookieParser = require('cookie-parser');
 import bodyParser = require('body-parser');
+import envConfig = require('./config/config');
+import mongoose = require('mongoose');
+import socketio = require('socket.io');
 
 var routes : express.Router = require('./routes/index');
-var users : express.Router = require('./routes/users');
 
+var config = envConfig.createEnvConfig();
 var app: express.Express = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.disable('etag');
+
+mongoose.connect(config.getMongoConnection());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -24,7 +31,6 @@ app.use(express.static(__dirname + '/public'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.use('/', routes);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req : express.Request, res: express.Response, next: Function) {
@@ -56,6 +62,5 @@ app.use(function(err : any, req: express.Request, res: express.Response, next: F
     error: {}
   });
 });
-
 
 module.exports = app;
