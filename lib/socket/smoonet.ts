@@ -1,10 +1,7 @@
 import socketio = require('socket.io');
 import http = require('http');
-
-var data = [
-  {"author": "Pete Hunt", "text": "This is one comment"},
-  {"author": "Jordan Walke", "text": "This is *another* comment"}
-];
+import mongoose = require('mongoose');
+import comment = require('../../models/comment');
 
 export class SmooNet {
     private smooServer: SocketIO.Server;
@@ -18,12 +15,53 @@ export class SmooNet {
 
     onConnection(socket:SocketIO.Socket) {
         var self = this;
-        socket.on('sendComment', function(comment:any) { self.sendComment(comment); });
-        socket.emit('updateComments', data);
+        socket.on('sendComment', function(comment:any) {
+            self.sendComment(comment);
+        });
+        self.retrieveAndSend(function(err:any, data:comment.IComment[]) {
+            if (!err)
+                self.sendToSingle(socket, err, data);
+            else
+                console.log(err);
+        });
     }
 
-    sendComment(comment:any) {
-        data.push(comment);
-        this.smooServer.emit('updateComments', data);
+    sendComment(commentData:any) {
+        var self = this;
+        comment.repo.create(commentData, function(err) {
+            console.log('added');
+            if (!err) {
+                self.retrieveAndSend(function(err:any, data:comment.IComment[]) {
+                    if (!err) {
+                        self.sendToAll(err,data);
+                    } else {
+                        console.log(err);
+                    }
+                });
+            } else {
+                console.log(err);
+            }
+        });
+    }
+
+    retrieveAndSend(callback: (err:any, data:comment.IComment[]) => void) {
+        console.log('retrieving');
+        comment.repo.find({}, callback);
+    }
+
+    sendToSingle(socket:SocketIO.Socket, error:any, data:comment.IComment[]) {
+        if (!error) {
+            socket.emit('updateComments', data);
+        } else {
+            console.log(error);
+        }
+    }
+
+    sendToAll(error:any, data:comment.IComment[]) {
+        if (!error) {
+            this.smooServer.emit('updateComments', data);
+        } else {
+            console.log(error);
+        }
     }
 }
