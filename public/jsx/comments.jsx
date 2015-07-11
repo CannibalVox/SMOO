@@ -54,38 +54,17 @@ var CommentBox = React.createClass({
     getInitialState: function() {
         return {data:[]};
     },
-    updateUI: function() {
-        $.ajax({
-            url: this.props.url,
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-              this.setState({data: data});
-            }.bind(this),
-            error: function(xhr, status, err) {
-              console.error(this.props.url, status, err.toString());
-            }.bind(this)
-        });
+    updateUI: function(data) {
+        this.setState({data:data});
     },
     onSubmit(commentData) {
         this.state.data.push(commentData);
         this.setState(this.state.data);
-        $.ajax({
-          url: this.props.url,
-          dataType: 'json',
-          type: 'POST',
-          data: commentData,
-          success: function(data) {
-            this.setState({data: data});
-          }.bind(this),
-          error: function(xhr, status, err) {
-            console.error(this.props.url, status, err.toString());
-          }.bind(this)
-        });
+        this.socket.emit('sendComment', commentData);
     },
     componentDidMount: function() {
-        this.updateUI();
-        setInterval(this.updateUI, this.props.pollInterval);
+        this.socket = io.connect();
+        this.socket.on('updateComments', this.updateUI);
     },
     render: function() {
         return (
