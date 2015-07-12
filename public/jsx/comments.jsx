@@ -57,7 +57,7 @@ var CommentBox = React.createClass({
     updateUI: function(data) {
         this.setState({data:data});
     },
-    onSubmit(commentData) {
+    onSubmit: function(commentData) {
         this.state.data.push(commentData);
         this.setState(this.state.data);
         this.socket.emit('sendComment', commentData);

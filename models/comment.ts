@@ -6,7 +6,7 @@ export var schema = new mongoose.Schema({
 });
 
 export interface IComment extends mongoose.Document {
-    author: string,
+    author: string
     text: string
 }
 
