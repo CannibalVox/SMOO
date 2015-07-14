@@ -29,7 +29,6 @@ export class SmooNet {
     sendComment(commentData:any) {
         var self = this;
         comment.repo.create(commentData, function(err) {
-            console.log('added');
             if (!err) {
                 self.retrieveAndSend(function(err:any, data:comment.IComment[]) {
                     if (!err) {
@@ -45,7 +44,6 @@ export class SmooNet {
     }
 
     retrieveAndSend(callback: (err:any, data:comment.IComment[]) => void) {
-        console.log('retrieving');
         comment.repo.find({}, callback);
     }
 

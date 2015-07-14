@@ -25,7 +25,6 @@ app.set('view engine', 'jade');
 
 app.disable('etag');
 
-mongoose.set('debug', true);
 mongoose.connect(envConfig.getMongoConnection());
 
 // uncomment after placing your favicon in /public
