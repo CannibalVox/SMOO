@@ -58,6 +58,27 @@ gulp.task('jade-development', ['js-vendor-development', 'js-development', 'jsx-d
 
 gulp.task('build-development',['js-development','jsx-development', 'css-development', 'ts-development', 'css-vendor-development', 'js-vendor-development', 'less-vendor-development','package-json','jade-development'], function() {});
 
+gulp.task('devServe', ['build-development'], function () {
+    plugins.nodemon({
+        script: 'dist/app.js',
+        ext: 'html js',
+        env: { 'NODE_ENV': 'development', 'MONGO_URI': 'mongodb://192.168.59.103:27017/' } ,
+        ignore: ['node_modules/'],
+        nodeArgs: ['--debug']
+    });
+});
+
+gulp.task('watch', ['devServe'], function () {
+    gulp.watch(['public/js/**/*.js'], ['build-development']).on('change', plugins.livereload.changed);
+    gulp.watch(['views/**/*.jade'], ['build-development']).on('change', plugins.livereload.changed);
+    gulp.watch(['public/css/**/*.cs'], ['build-development']).on('change', plugins.livereload.changed);
+    gulp.watch(['public/jsx/**/*.jsx'], ['build-development']).on('change', plugins.livereload.changed);
+    gulp.watch(['**/*.ts','!node_modules/**','!bower_components/**'], ['build-development']).on('change', plugins.livereload.changed);
+    plugins.livereload.listen({interval: 500});
+});
+
+gulp.task('dev', ['watch'], function(){});
+
 function count(taskName, message) {
     var fileCount = 0;
 
