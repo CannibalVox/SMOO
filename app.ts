@@ -17,7 +17,6 @@ import http = require('http');
 
 var routes : express.Router = require('./routes/index');
 
-var config = envConfig.createEnvConfig();
 var app: express.Express = express();
 
 // view engine setup
@@ -27,7 +26,7 @@ app.set('view engine', 'jade');
 app.disable('etag');
 
 mongoose.set('debug', true);
-mongoose.connect(config.getMongoConnection());
+mongoose.connect(envConfig.getMongoConnection());
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
