@@ -35,8 +35,10 @@ gulp.task('package-json', ['clean'], function() {
 });
 
 var jadeExecute = function() {
-    return gulp.src(['views/**/*.jade'], {base:'views'})
-        .pipe(wiredep.stream({
+    var target = gulp.src(['views/**/*.jade'], {base:'views'});
+
+    if (this.seq.slice(-1)[0].indexOf("production") < 0) {
+        target = target.pipe(wiredep.stream({
             fileTypes: {
                 jade: {
                     replace: {
@@ -46,8 +48,20 @@ var jadeExecute = function() {
                     }
                 }
             }
-        }))
-        .pipe(plugins.inject(
+        }));
+    } else {
+        target = target.pipe(plugins.inject(
+            gulp.src(['dist/public/js-vendor/**/*.js'], {read:false, base:'dist/public/js-vendor'}),
+            {
+                name:'bowerprod',
+                addPrefix: '..',
+                ignorePath: '../dist/public/js-vendor',
+                relative:true
+            }
+        ));
+    }
+
+    return target.pipe(plugins.inject(
             gulp.src(['dist/public/css/**/*.css','dist/public/js/**/*.js'], {read:false, base:'dist/public'}),
             {
                 name:'header',
