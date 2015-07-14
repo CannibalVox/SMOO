@@ -37,7 +37,7 @@ gulp.task('package-json', ['clean'], function() {
 var jadeExecute = function() {
     var target = gulp.src(['views/**/*.jade'], {base:'views'});
 
-    if (this.seq.slice(-1)[0].indexOf("production") < 0) {
+    if (this.seq.slice(-1)[0].indexOf("prod") < 0) {
         target = target.pipe(wiredep.stream({
             fileTypes: {
                 jade: {
@@ -55,7 +55,7 @@ var jadeExecute = function() {
             {
                 name:'bowerprod',
                 addPrefix: '..',
-                ignorePath: '../dist/public/js-vendor',
+                ignorePath: '../dist/public',
                 relative:true
             }
         ));

@@ -50,6 +50,8 @@ gulp.task('js-vendor-production', ['clean'], function() {
         .pipe(gulp.dest('dist/public/js-vendor'));
 });
 
-gulp.task('jade-production', ['js-vendor-production', 'js-production', 'jsx-production', 'css-production', 'css-vendor-production'], commonGulp.jadeExecute);
+gulp.task('jade-production', ['js-vendor-production', 'js-production', 'jsx-production', 'css-production', 'css-vendor-production', 'less-vendor-production'], commonGulp.jadeExecute);
 
 gulp.task('build-production',['js-production','jsx-production', 'css-production', 'ts-production', 'css-vendor-production', 'js-vendor-production', 'less-vendor-production','package-json','jade-production'], function() {});
+
+gulp.task('prod', ['build-production'], function() {});
