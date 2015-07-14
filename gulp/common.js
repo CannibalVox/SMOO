@@ -41,7 +41,7 @@ var jadeExecute = function() {
                 jade: {
                     replace: {
                         js: function (filePath) {
-                            return 'script (src="../public/js-vendor/' + filePath.split('/').pop() + '")';
+                            return 'script(src="../js-vendor/' + filePath.split('/').pop() + '")';
                         }
                     }
                 }
@@ -52,7 +52,7 @@ var jadeExecute = function() {
             {
                 name:'header',
                 addPrefix: '..',
-                ignorePath: '../dist',
+                ignorePath: '../dist/public',
                 relative: true
             }
         ))
@@ -61,7 +61,7 @@ var jadeExecute = function() {
             {
                 name:'react',
                 addPrefix: '..',
-                ignorePath: '../dist',
+                ignorePath: '../dist/public',
                 relative: true
             }
         ))

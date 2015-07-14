@@ -4,7 +4,7 @@
         "!./node_modules/**/*.ts"
     ],
     "compilerOptions": {
-        "target": "ES5",
+        "target": "ES6",
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
@@ -13,11 +13,7 @@
     },
     "files": [
         "./app.ts",
-        "./config/IEnvConfig.ts",
         "./config/config.ts",
-        "./config/development.ts",
-        "./config/production.ts",
-        "./config/test.ts",
         "./lib/socket/smoonet.ts",
         "./models/comment.ts",
         "./routes/index.ts",

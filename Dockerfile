@@ -1,7 +1,9 @@
-FROM node:0.12.7:slim
+FROM node:0.12.7-slim
 
-COPY . /dist
-RUN cd /dist; npm install
-EXPOSE 8080
+ENV MONGO_URI=mongodb://mongo/
+ENV NODE_ENV=development
+COPY /dist .
+RUN npm install
+EXPOSE 3000
 
-CMD ["node" "/dist/app.js"]
+CMD ["node", "app.js"]
