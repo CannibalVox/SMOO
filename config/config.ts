@@ -3,5 +3,5 @@ export function getEnvironment() :string {
 }
 
 export function getMongoConnection() {
-    return process.env.MONGO_URI+"smoo";
+    return process.env.MONGO_URI;
 }
