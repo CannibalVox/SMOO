@@ -62,7 +62,7 @@ gulp.task('devServe', ['build-development'], function () {
     plugins.nodemon({
         script: 'dist/app.js',
         ext: 'html js',
-        env: { 'NODE_ENV': 'development', 'MONGO_URI': 'mongodb://192.168.59.103:27017/' } ,
+        env: { 'NODE_ENV': 'development' } ,
         ignore: ['node_modules/'],
         nodeArgs: ['--debug']
     });
