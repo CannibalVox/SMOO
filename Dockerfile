@@ -1,9 +1,24 @@
-FROM node:0.12.7-slim
+FROM heroku/cedar:14
 
-ENV MONGO_URI=mongodb://mongo/
-ENV NODE_ENV=development
-COPY /dist .
-RUN npm install
+RUN useradd -d /app -m app
+USER app
+WORKDIR /app
+
+ENV HOME /app
+ENV NODE_ENGINE 0.10.38
+ENV PORT 3000
+
+RUN mkdir -p /app/heroku/node
+RUN mkdir -p /app/src
+RUN curl -s https://s3pository.heroku.com/node/v$NODE_ENGINE/node-v$NODE_ENGINE-linux-x64.tar.gz | tar --strip-components=1 -xz -C /app/heroku/node
+ENV PATH /app/heroku/node/bin:$PATH
+
+RUN mkdir -p /app/.profile.d
+RUN echo "export PATH=\"/app/heroku/node/bin:/app/bin:/app/src/node_modules/.bin:\$PATH\"" > /app/.profile.d/nodejs.sh
+RUN echo "cd /app/src" >> /app/.profile.d/nodejs.sh
+WORKDIR /app/src
+
 EXPOSE 3000
 
-CMD ["node", "app.js"]
+ONBUILD COPY /dist /app/src
+ONBUILD RUN npm install
