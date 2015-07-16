@@ -68,16 +68,16 @@ gulp.task('devServe', ['build-development'], function () {
     });
 });
 
-gulp.task('watch', ['devServe'], function () {
+gulp.task('watch', ['build-development'], function () {
     gulp.watch(['public/js/**/*.js'], ['build-development']).on('change', plugins.livereload.changed);
     gulp.watch(['views/**/*.jade'], ['build-development']).on('change', plugins.livereload.changed);
-    gulp.watch(['public/css/**/*.cs'], ['build-development']).on('change', plugins.livereload.changed);
+    gulp.watch(['public/css/**/*.css'], ['build-development']).on('change', plugins.livereload.changed);
     gulp.watch(['public/jsx/**/*.jsx'], ['build-development']).on('change', plugins.livereload.changed);
     gulp.watch(['**/*.ts','!node_modules/**','!bower_components/**'], ['build-development']).on('change', plugins.livereload.changed);
     plugins.livereload.listen({interval: 500});
 });
 
-gulp.task('dev', ['watch'], function(){});
+gulp.task('dev', ['watch', 'devServe'], function(){});
 
 function count(taskName, message) {
     var fileCount = 0;
