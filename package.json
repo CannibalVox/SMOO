@@ -46,6 +46,7 @@
     "python": "0.0.4",
     "reactify": "^1.1.1",
     "require-dir": "^0.3.0",
+    "stream-series": "^0.1.1",
     "through": "^2.3.8",
     "tsd": "0.6.0-beta.5",
     "typescript": "^1.4.1",

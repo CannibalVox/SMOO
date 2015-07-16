@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var del = require('del');
 var wiredep = require('wiredep');
 var plugins = require('gulp-load-plugins')();
+var series = require('stream-series');
 
 gulp.task('help', plugins.taskListing);
 
@@ -61,6 +62,9 @@ var jadeExecute = function() {
         ));
     }
 
+    var rootJsx = gulp.src(['dist/public/jsx/*.js'], {read:false, base:'dist/public/jsx'});
+    var depJsx = gulp.src(['!dist/public/jsx/*.js','dist/public/jsx/**/*.js'], {read: false, base: 'dist/public/jsx'});
+
     return target.pipe(plugins.inject(
             gulp.src(['dist/public/css/**/*.css','dist/public/js/**/*.js'], {read:false, base:'dist/public'}),
             {
@@ -71,7 +75,7 @@ var jadeExecute = function() {
             }
         ))
         .pipe(plugins.inject(
-            gulp.src(['dist/public/jsx/**/*.js'], {read:false, base:'dist/public/jsx'}),
+            series(depJsx, rootJsx),
             {
                 name:'react',
                 addPrefix: '..',

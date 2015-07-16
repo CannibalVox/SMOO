@@ -15,7 +15,6 @@
         "./app.ts",
         "./config/config.ts",
         "./lib/socket/smoonet.ts",
-        "./models/comment.ts",
         "./routes/index.ts",
         "./typings/body-parser/body-parser.d.ts",
         "./typings/cookie-parser/cookie-parser.d.ts",

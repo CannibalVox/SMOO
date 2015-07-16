@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
 var commonGulp = require('./common');
 var gutil = require('gulp-util');
+var series = require('stream-series');
 
 gulp.task('js-production', ['clean'], function() {
     return gulp.src(['public/js/**/*.js'], {base:'public/js'})
@@ -11,7 +12,10 @@ gulp.task('js-production', ['clean'], function() {
 });
 
 gulp.task('jsx-production',['jsx'], function() {
-    return gulp.src(['build/jsx/**/*.js'], {base: 'build/jsx'})
+    var rootJsx = gulp.src(['build/jsx/*.js'], {read:false, base:'build/jsx'});
+    var depJsx = gulp.src(['!build/jsx/*.js','build/jsx/**/*.js'], {read: false, base: 'build/jsx'});
+
+    return series(depJsx, rootJsx)
         .pipe(plugins.concat('jsx.min.js'))
         .pipe(plugins.uglify())
         .pipe(gulp.dest('dist/public/jsx'));
