@@ -1,8 +1,40 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color:#161a1d;
 }
 
 a {
   color: #00B7FF;
+}
+
+.container {
+    max-width: 800px;
+    width: auto;
+    color: #54fe54;
+    margin: 100px auto 15px auto;
+    padding: 1em;
+}
+
+.hilight {
+    font-family: inherit;
+    color: #54FE54;
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    font: normal normal normal 13.3333330154419px/normal Arial;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0;
+    text-shadow: none;
+    display: inline-block;
+    width:90%;
+}
+
+.hilight:focus {
+    outline: none;
+    margin-left: 0.5em;
 }
